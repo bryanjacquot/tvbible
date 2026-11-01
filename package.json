@@ -1,0 +1,17 @@
+{
+  "name": "tvbible",
+  "version": "1.0.0",
+  "description": "Two-column Google TV Bible Reader web application for Synology Container Manager",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "start": "node server/index.mjs",
+    "dev": "node --watch server/index.mjs",
+    "fetch-bibles": "node scripts/fetch-open-bibles.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}
+

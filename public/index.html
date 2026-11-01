@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <script>
+    try {
+      document.querySelector('meta[name="color-scheme"]').content =
+        localStorage.getItem('color-scheme') ?? 'light dark';
+    } catch {}
+  </script>
+  <title>tvbible</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Selector Bar (Live-Synced with Left/Right Navigation) -->
+    <header id="top-bar" class="top-bar" aria-label="Bible Passage and Display Controls">
+      <div class="selector-group">
+        <button
+          type="button"
+          id="btn-translation"
+          class="selector-pill"
+          data-spatial-item
+          tabindex="0"
+          aria-haspopup="dialog"
+          aria-label="Select Translation"
+        >
+          <span class="pill-label">Translation</span>
+          <span class="pill-value" id="val-translation">BSB</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-book"
+          class="selector-pill"
+          data-spatial-item
+          tabindex="-1"
+          aria-haspopup="dialog"
+          aria-label="Select Book"
+        >
+          <span class="pill-label">Book</span>
+          <span class="pill-value" id="val-book">Genesis</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-chapter"
+          class="selector-pill"
+          data-spatial-item
+          tabindex="-1"
+          aria-haspopup="dialog"
+          aria-label="Select Chapter"
+        >
+          <span class="pill-label">Chapter</span>
+          <span class="pill-value" id="val-chapter">1</span>
+        </button>
+
+        <button
+          type="button"
+          id="btn-verse"
+          class="selector-pill"
+          data-spatial-item
+          tabindex="-1"
+          aria-haspopup="dialog"
+          aria-label="Select Verse"
+        >
+          <span class="pill-label">Verse</span>
+          <span class="pill-value" id="val-verse">1</span>
+        </button>
+      </div>
+
+      <div class="display-group">
+        <button
+          type="button"
+          id="btn-font-down"
+          class="icon-pill"
+          data-spatial-item
+          tabindex="-1"
+          aria-label="Decrease text size"
+          title="Smaller text"
+        >
+          A&minus;
+        </button>
+        <button
+          type="button"
+          id="btn-font-up"
+          class="icon-pill"
+          data-spatial-item
+          tabindex="-1"
+          aria-label="Increase text size"
+          title="Larger text"
+        >
+          A+
+        </button>
+        <button
+          type="button"
+          id="btn-theme"
+          class="icon-pill theme-toggle-btn"
+          data-spatial-item
+          tabindex="-1"
+          title="Toggle light or dark theme"
+        >
+          <span class="theme-option theme-to-dark">
+            <span aria-hidden="true">&#9790;</span>
+            <span class="visually-hidden">Switch to dark theme</span>
+          </span>
+          <span class="theme-option theme-to-light">
+            <span aria-hidden="true">&#9728;</span>
+            <span class="visually-hidden">Switch to light theme</span>
+          </span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Full-Height Two-Column Open-Book Reading Canvas (No Footer) -->
+    <main
+      id="reading-stage"
+      class="reading-stage"
+      tabindex="0"
+      aria-label="Scripture Reading Area. Use Left and Right arrow keys to turn pages, or Up arrow to focus selectors."
+    >
+      <button
+        type="button"
+        id="edge-prev"
+        class="edge-gutter edge-prev"
+        tabindex="-1"
+        aria-label="Previous page"
+        title="Previous page (Left Arrow)"
+      >
+        <span aria-hidden="true">&#8249;</span>
+      </button>
+
+      <div id="spread-grid" class="spread-grid" aria-live="polite" aria-atomic="true">
+        <section id="col-left" class="bible-column" aria-label="Left Column"></section>
+        <div class="column-divider" aria-hidden="true"></div>
+        <section id="col-right" class="bible-column" aria-label="Right Column"></section>
+      </div>
+
+      <button
+        type="button"
+        id="edge-next"
+        class="edge-gutter edge-next"
+        tabindex="-1"
+        aria-label="Next page"
+        title="Next page (Right Arrow)"
+      >
+        <span aria-hidden="true">&#8250;</span>
+      </button>
+
+      <!-- Hidden offscreen single-column measurer matching exact .bible-column width & typography -->
+      <div id="measure-host" class="measure-host" aria-hidden="true">
+        <div id="measure-column" class="bible-column"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Native Modal Dialog for 2D TV Remote Grid Pickers -->
+  <dialog id="picker-dialog" closedby="any" aria-labelledby="picker-dialog-title">
+    <div class="dialog-header">
+      <h2 id="picker-dialog-title" class="dialog-title">Select</h2>
+      <form method="dialog">
+        <button
+          type="submit"
+          value="cancel"
+          id="picker-close-btn"
+          class="dialog-close-btn"
+          data-spatial-item
+          tabindex="-1"
+        >
+          Close
+        </button>
+      </form>
+    </div>
+    <div id="picker-body" class="picker-body"></div>
+  </dialog>
+
+  <script type="module" src="/js/app.mjs"></script>
+</body>
+</html>
+

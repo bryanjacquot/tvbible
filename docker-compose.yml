@@ -1,0 +1,16 @@
+services:
+  tvbible:
+    build: .
+    image: tvbible:latest
+    container_name: tvbible
+    restart: unless-stopped
+    ports:
+      - "${HOST_PORT:-3003}:3003"
+    environment:
+      - NODE_ENV=production
+      - PORT=3003
+      - API_BIBLE_KEY=${API_BIBLE_KEY:-}
+      - API_BIBLE_BASE_URL=${API_BIBLE_BASE_URL:-https://rest.api.bible/v1}
+      - API_BIBLE_IDS=${API_BIBLE_IDS:-}
+      - NLT_API_KEY=${NLT_API_KEY:-}
+
